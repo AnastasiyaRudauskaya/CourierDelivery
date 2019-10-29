@@ -40,18 +40,23 @@
 
 ### 2.2 Интерфейс пользователя   
 * Главная страница заказчика
+
 ![Главная страница](../Mockups/mockup_customer_home.png)
 
 * Главная страница курьера
+
 ![Страница определённого меню](../Mockups/mockup_courier_home.png)
 
 * Страница создания заказа
+
 ![Страница блюда](../Mockups/mockup_new_order.png)
 
 * Страница аутентификации
+
 ![Страница аутентификации](../Mockups/mockup_login.png)
 
 * Страница регистрации
+
 ![Корзина](../Mockups/mockup_registration.png)
 
 <a name="charact_users"/>
