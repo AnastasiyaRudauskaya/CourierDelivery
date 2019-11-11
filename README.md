@@ -1,3 +1,3 @@
 # СourierDelivery
-СourierDelivery is a web application for finding free couriers.
+СourierDelivery веб-приложения, реализованное на языке JAVA, для поиска курьеров.
 ## Requirements: ([Ru](/Documents/Requirements/RequirementsDocument.md))
