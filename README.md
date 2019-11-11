@@ -1,3 +1,4 @@
 # СourierDelivery
-СourierDelivery веб-приложения, реализованное на языке JAVA, для поиска курьеров.
+СourierDelivery веб-приложение для поиска курьеров.
+Реализовано на языке JAVA
 ## Requirements: ([Ru](/Documents/Requirements/RequirementsDocument.md))
