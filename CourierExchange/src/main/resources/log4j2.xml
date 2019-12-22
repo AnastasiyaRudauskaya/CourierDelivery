@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+
+    <Properties>
+        <property name="LOG_DIR">logs</property>
+        <property name="ARCHIVE_LOG_DIR">${LOG_DIR}/archive</property>
+        <property name="pattern_">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{3} - %msg%n</property>
+    </Properties>
+    <ThresholdFilter level="trace"/>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern_}"/>
+        </Console>
+        <File name ="File1" fileName="logs/text.log" bufferedIO="true">
+            <PatternLayout pattern="${pattern_}"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Logger name ="Log_File" level="trace" additivity="false">
+        <Appender-Ref ref="File1"/>
+        </Logger>
+        <Root level="debug">
+            <Appender-Ref ref="File1"/>
+            <Appender-Ref ref="Console" level="trace"/>
+        </Root>
+    </Loggers>
+
+
+</Configuration>
