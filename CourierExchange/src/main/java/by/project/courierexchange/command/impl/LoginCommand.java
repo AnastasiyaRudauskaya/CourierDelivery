@@ -8,23 +8,41 @@ import by.project.courierexchange.resource.MessageManager;
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginCommand implements ActionCommand {
-    private static final String PARAM_NAME_LOGIN = "login";
-    private static final String PARAM_NAME_PASSWORD = "password";
+    private static Logger logger = LogManager.getLogger();
+
     @Override
-    public String execute(HttpServletRequest request) {
-        String page = null;
-        String login = request.getParameter(PARAM_NAME_LOGIN);
-        String pass = request.getParameter(PARAM_NAME_PASSWORD);
-// проверка логина и пароля
-        if (LoginLogic.checkLogin(login, pass)) {
-            request.setAttribute("user", login);
-// определение пути к main.jsp
-            page = ConfigurationManager.getProperty("path.page.main");
-        } else {
-            request.setAttribute("errorLoginPassMessage",
-                    MessageManager.getProperty("message.loginerror"));
-            page = ConfigurationManager.getProperty("path.page.login");
+    public String execute(SessionRequestContent content) throws CommandException {
+        try {
+            UserServiceImpl userService = new UserServiceImpl();
+            String email = content.getRequestParameters().get(EMAIL)[0];
+            if (!userService.checkByEmail(email)) {
+                content.getRequestAttributes().put(ERROR, true);
+                return PageName.LOGIN;
+            }
+            List<User> userList = userService.findByEmail(email);
+            String password = userService.codingPassword(content.getRequestParameters().get(PASSWORD)[0]);
+            String truePassword = userService.findPasswordById(userList.get(0).getId());
+            if (!truePassword.equals(password)) {
+                content.getRequestAttributes().put(ERROR, true);
+                return PageName.LOGIN;
+            }
+            content.getSessionAttributes().put(USER, userList.get(0));
+            content.getRequestAttributes().put(CABINET, ACTIVE);
+            switch (userList.get(0).getRole()) {
+                case ADMIN:
+                    return PageName.ADMIN;
+                case COURIER:
+                    double rating = new RatingCourierServiceImpl().findByCourierId(userList.get(0).getId());
+                    content.getSessionAttributes().put(RATING, rating);
+                    return PageName.COURIER;
+                case CLIENT:
+                    return PageName.CLIENT;
+                default:
+                    return PageName.LOGIN;
+            }
+        } catch (ServiceException e) {
+            logger.error("execute", e);
+            throw new CommandException("execute", e);
         }
-        return page;
     }
 }
